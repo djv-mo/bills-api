@@ -26,6 +26,7 @@ class Common(Configuration):
 
         # Your apps
         'bills.users',
+        'billsapi',
 
     )
     SITE_ID = 1
