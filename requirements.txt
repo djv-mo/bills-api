@@ -17,8 +17,7 @@ django_unique_upload==0.2.1
 djangorestframework==3.12.4
 Markdown==3.3.4
 django-filter==2.4.0
-django-rest-auth==0.9.5
-django-rest-auth[with_social]
+django-rest-registration==0.6.3 
 
 # Developer Tools
 ipdb==0.13.9

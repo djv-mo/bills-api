@@ -21,11 +21,8 @@ class Common(Configuration):
         'rest_framework',            # utilities for rest apis
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
-        'rest_auth',                  # for registration
-        'django.contrib.sites',
-        'allauth',
-        'allauth.account',
-        'rest_auth.registration',
+        'rest_registration',                  # for registration
+
 
         # Your apps
         'bills.users',
@@ -206,3 +203,8 @@ class Common(Configuration):
     }
 
     # Django rest auth configurations
+    REST_REGISTRATION = {
+        'REGISTER_VERIFICATION_ENABLED': False,
+        'RESET_PASSWORD_VERIFICATION_ENABLED': False,
+        'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    }
