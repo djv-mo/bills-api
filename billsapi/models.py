@@ -20,8 +20,7 @@ class BillsItems(models.Model):
     price = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     negative = models.BooleanField(default=False)
-    valid = models.BooleanField(default=True)
-    bill = models.ForeignKey(Bills, null=True, on_delete=models.CASCADE, related_name='bills')
+    bill = models.ForeignKey(Bills ,null=True ,on_delete=models.CASCADE, related_name='bills')
 
     def __str__(self):
         return self.item + " - " + str(self.bill)

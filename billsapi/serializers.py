@@ -14,3 +14,14 @@ class BillsSerializer(serializers.ModelSerializer):
 
     def get_created_at(self, instance):
         return instance.created_at.strftime('%B %d %Y')
+
+class BillsItemsSerializer(serializers.ModelSerializer):
+    created_at = serializers.SerializerMethodField()
+    negative = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = BillsItems
+        exclude = ('bill',)
+
+    def get_created_at(self, instance):
+        return instance.created_at.strftime('%B %d %Y')
