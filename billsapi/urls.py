@@ -1,7 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (BillsViewSet,
-                    BillsItemsListCreateApiView)
+                    BillsItemsListCreateApiView,
+                    BillsItemRUDApiView)
 
 app_name = 'bills'
 
@@ -13,6 +14,10 @@ urlpatterns = [
 
     path('bills/<uuid:pk>/items/',
          BillsItemsListCreateApiView.as_view(),
-         name='bills-list'),
+         name='items-list'),
+
+    path('items/<uuid:pk>/',
+         BillsItemRUDApiView.as_view(),
+         name='items-update'),
 
     ]

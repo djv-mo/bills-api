@@ -21,6 +21,7 @@ class BillsItems(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     negative = models.BooleanField(default=False)
     bill = models.ForeignKey(Bills ,null=True ,on_delete=models.CASCADE, related_name='bills')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.item + " - " + str(self.bill)

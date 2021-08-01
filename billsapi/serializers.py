@@ -21,7 +21,7 @@ class BillsItemsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BillsItems
-        exclude = ('bill',)
+        exclude = ('bill', 'user',)
 
     def get_created_at(self, instance):
         return instance.created_at.strftime('%B %d %Y')
