@@ -14,7 +14,9 @@ class BillsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Bills.objects.filter(user=user, active=True).order_by('-created_at').annotate(total=Sum('bills__price'))
+        # return Bills.objects.filter(user=user,active=True).order_by('-created_at').annotate(total=Sum('bills__price'))
+        return Bills.objects.select_related('user').filter(user=user,active=True).order_by('-created_at').annotate(total=Sum('bills__price'))
+
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

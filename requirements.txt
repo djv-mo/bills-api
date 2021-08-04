@@ -17,13 +17,14 @@ django_unique_upload==0.2.1
 djangorestframework==3.12.4
 Markdown==3.3.4
 django-filter==2.4.0
-django-rest-registration==0.6.3 
+django-rest-registration==0.6.3
 
 # Developer Tools
 ipdb==0.13.9
 ipython==7.25.0
 mkdocs==1.2.1
 flake8==3.9.2
+django-debug-toolbar
 
 # Testing
 mock==4.0.3
