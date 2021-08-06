@@ -3,7 +3,8 @@ from os.path import join
 from distutils.util import strtobool
 import dj_database_url
 from configurations import Configuration
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)))
 
 
 class Common(Configuration):
@@ -26,7 +27,7 @@ class Common(Configuration):
 
         # Your apps
         'bills.users',
-        'billsapi',
+        'bills.billsapi',
 
     )
     SITE_ID = 1
@@ -57,7 +58,8 @@ class Common(Configuration):
     DATABASES = {
         'default': dj_database_url.config(
             default='postgres://postgres:@postgres:5432/postgres',
-            conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
+            conn_max_age=int(
+                os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }
 
@@ -74,7 +76,8 @@ class Common(Configuration):
 
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
-    STATIC_ROOT = os.path.normpath(join(os.path.dirname(BASE_DIR), 'static'))
+    STATIC_ROOT = os.path.normpath(
+        join(os.path.dirname(BASE_DIR), 'static'))
     STATICFILES_DIRS = []
     STATIC_URL = '/static/'
     STATICFILES_FINDERS = (

@@ -13,7 +13,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls',
          namespace='rest_framework')),
     path('accounts/', include('rest_registration.api.urls')),
-    path('', include('billsapi.urls')),
+    path('', include('bills.billsapi.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 
 
