@@ -24,7 +24,7 @@ class BillsViewSet(viewsets.ModelViewSet):
 
 class BillsItemsListCreateApiView(generics.ListCreateAPIView):
     serializer_class = BillsItemsSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
         user = self.request.user

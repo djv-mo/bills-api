@@ -8,7 +8,8 @@ from rest_framework.authtoken.models import Token
 
 
 class User(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField()
 
     def __str__(self):
