@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
-from .users.views import UserViewSet, UserCreateViewSet
+from .users.views import UserApiView
 
 
 urlpatterns = [
@@ -16,6 +16,7 @@ urlpatterns = [
     path('accounts/', include('rest_registration.api.urls')),
     path('', include('bills.billsapi.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
+    path('user/', UserApiView.as_view(), name='user_detail')
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

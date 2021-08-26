@@ -22,19 +22,20 @@ class Common(Configuration):
         'rest_framework',            # utilities for rest apis
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
-        'rest_registration',                  # for registration
-
+        'rest_registration',                # for registration
+        'corsheaders',
 
         # Your apps
         'bills.users',
         'bills.billsapi',
 
+
     )
-    SITE_ID = 1
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
     MIDDLEWARE = (
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -201,8 +202,8 @@ class Common(Configuration):
             'rest_framework.permissions.IsAuthenticated',
         ],
         'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.SessionAuthentication',
             'rest_framework.authentication.TokenAuthentication',
+            'rest_framework.authentication.SessionAuthentication',
         )
     }
 
@@ -212,3 +213,33 @@ class Common(Configuration):
         'RESET_PASSWORD_VERIFICATION_ENABLED': False,
         'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
     }
+
+
+    # For CORS and CSRF
+
+    CORS_ALLOW_CREDENTIALS = True
+
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
+    # For Cookie
+
+    CSRF_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_HTTPONLY = True
+
+    # Since the frontend is on `http://localhost:8080` and the backend is on `http://localhost:8000`, they are two different origins and we need to set samesite to false
+
+    # UPDATE: Starting with django 3.1 this must be set to 'None'
+    SESSION_COOKIE_SAMESITE = 'None'
+    CSRF_COOKIE_SAMESITE = 'None'
+
+    # When you test this make sure both applications are on the same domain. Like `http://127.0.0.1:8000` and `http://127.0.0.1:8080`
