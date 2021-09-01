@@ -5,7 +5,7 @@ import dj_database_url
 from configurations import Configuration
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))
-
+from datetime import timedelta
 
 class Common(Configuration):
 
@@ -24,6 +24,7 @@ class Common(Configuration):
         'django_filters',            # for filtering rest endpoints
         'rest_registration',                # for registration
         'corsheaders',
+
 
         # Your apps
         'bills.users',
@@ -202,7 +203,7 @@ class Common(Configuration):
             'rest_framework.permissions.IsAuthenticated',
         ],
         'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.TokenAuthentication',
+            'bills.users.authentication.ExpiringTokenAuthentication',
             'rest_framework.authentication.SessionAuthentication',
         )
     }
@@ -241,5 +242,4 @@ class Common(Configuration):
     # UPDATE: Starting with django 3.1 this must be set to 'None'
     SESSION_COOKIE_SAMESITE = 'None'
     CSRF_COOKIE_SAMESITE = 'None'
-
-    # When you test this make sure both applications are on the same domain. Like `http://127.0.0.1:8000` and `http://127.0.0.1:8080`
+    TOKEN_EXPIRED_AFTER_SECONDS = 7200

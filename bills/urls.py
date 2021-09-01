@@ -5,13 +5,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.authtoken import views
-from .users.views import UserApiView
+from .users.views import UserApiView, signin
+
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls',
          namespace='rest_framework')),
+    path('accounts/login-auth/', signin),
     path('api-token-auth/', views.obtain_auth_token),
     path('accounts/', include('rest_registration.api.urls')),
     path('', include('bills.billsapi.urls')),

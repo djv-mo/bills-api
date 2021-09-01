@@ -13,11 +13,14 @@ class Bills(models.Model):
     def __str__(self):
         return self.name + " by " + str(self.user)
 
+    def __unicode__(self):
+        return unicode(self.name)
+
 
 class BillsItems(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     item = models.CharField(max_length=250)
-    price = models.IntegerField()
+    price = models.FloatField(default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     negative = models.BooleanField(default=False)
     bill = models.ForeignKey(Bills ,null=True ,on_delete=models.CASCADE, related_name='bills')
