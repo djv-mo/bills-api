@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 from os.path import join
 from distutils.util import strtobool
@@ -5,7 +6,7 @@ import dj_database_url
 from configurations import Configuration
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.abspath(__file__)))
-from datetime import timedelta
+
 
 class Common(Configuration):
 
@@ -24,6 +25,7 @@ class Common(Configuration):
         'django_filters',            # for filtering rest endpoints
         'rest_registration',                # for registration
         'corsheaders',
+        'webpack_loader',
 
 
         # Your apps
@@ -80,7 +82,10 @@ class Common(Configuration):
     # https://docs.djangoproject.com/en/2.0/howto/static-files/
     STATIC_ROOT = os.path.normpath(
         join(os.path.dirname(BASE_DIR), 'static'))
-    STATICFILES_DIRS = []
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'assets'),
+        os.path.join(BASE_DIR, 'frontend/dist/')
+    ]
     STATIC_URL = '/static/'
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -94,7 +99,7 @@ class Common(Configuration):
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': STATICFILES_DIRS,
+            'DIRS': [os.path.join(BASE_DIR, 'templates')],
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
@@ -215,7 +220,6 @@ class Common(Configuration):
         'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
     }
 
-
     # For CORS and CSRF
 
     CORS_ALLOW_CREDENTIALS = True
@@ -240,6 +244,13 @@ class Common(Configuration):
     # Since the frontend is on `http://localhost:8080` and the backend is on `http://localhost:8000`, they are two different origins and we need to set samesite to false
 
     # UPDATE: Starting with django 3.1 this must be set to 'None'
-    SESSION_COOKIE_SAMESITE = 'None'
-    CSRF_COOKIE_SAMESITE = 'None'
+    # SESSION_COOKIE_SAMESITE = 'None'
+    # CSRF_COOKIE_SAMESITE = 'None'
+
     TOKEN_EXPIRED_AFTER_SECONDS = 7200
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'dist/',
+            'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json'),
+        }
+    }

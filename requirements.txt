@@ -5,6 +5,7 @@ django-configurations==2.2
 gunicorn==20.1.0
 newrelic==6.4.4.161
 django-cors-headers
+django-webpack-loader
 
 # For the persistence stores
 psycopg2-binary==2.9.1
