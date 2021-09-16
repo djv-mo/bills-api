@@ -1,4 +1,4 @@
-import csv
+import xlsxwriter
 from django.db.models import Sum
 from rest_framework import status
 from rest_framework import viewsets, generics
@@ -98,22 +98,34 @@ class ExportAPIView(APIView):
         bill = get_object_or_404(Bills, id=id)
         if bill.user == user:
             serializer = BillsSerializer(bill)
-            response = HttpResponse(content_type='text/csv')
+
+            response = HttpResponse(content_type='application/vnd.ms-excel')
             response['Content-Disposition'] = 'attachment; filename=' + \
-                str(bill.name) + '.csv'
+                str(bill.name) + '.xlsx'
 
             items = BillsItems.objects.filter(
                 bill__id=id, bill__user=user).order_by('created_at')
-            writer = csv.writer(response)
-
-            writer.writerow(['item', 'price'])
+            workbook = xlsxwriter.Workbook(response, {'in_memory': True})
+            bold = workbook.add_format({'bold': True})
+            # By default worksheet names in the spreadsheet will be
+            # Sheet1, Sheet2 etc., but we can also specify a name.
+            worksheet = workbook.add_worksheet("My sheet")
+            worksheet.set_column(0, 1, 44)
+            row = 0
+            col = 0
             B = 1
+            # Iterate over the data and write it out row by row.
             for item in items:
-                writer.writerow([item.item, item.price])
+                worksheet.write(row, col, item.item, bold)
+                worksheet.write(row, col + 1, item.price)
+                row += 1
                 B += 1
 
-            writer.writerow(['Total', '=SUM(B2:B' + str(B) + ')'])
+            worksheet.write('A' + str(B), 'Total')
+            worksheet.write(
+                'B' + str(B), '=SUM(B1:B' + str(B - 1) + ')', None, '', )
 
+            workbook.close()
         else:
             raise NotFound('Not found.')
 
