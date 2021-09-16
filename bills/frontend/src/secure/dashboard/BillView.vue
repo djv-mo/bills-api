@@ -262,7 +262,7 @@ export default {
         responseType: "blob",
         headers: { Authorization: "Token " + this.token },
       }).then((response) => {
-        FileSaver.saveAs(response.data, this.billname + ".xlsx");
+        FileSaver.saveAs(response.data, this.billname);
       });
     },
     triggerUpdate() {
