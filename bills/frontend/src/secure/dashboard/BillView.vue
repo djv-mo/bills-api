@@ -15,6 +15,7 @@
           </div>
           <div class="col-5">
             <input
+              type="number"
               step="0.01"
               pattern="^\d+(?:\.\d{1,2})?$"
               class="form-control"
@@ -87,7 +88,7 @@
       </div>
       <!-- End export CSV -->
 
-      <div class="row d-flex justify-content-center py-3">
+      <div class="row d-flex justify-content-left py-3">
         <div class="row mb-1" v-for="item in items" :key="item.id">
           <div class="col-7">
             <ul class="list-group">
@@ -129,7 +130,7 @@
         </div>
       </div>
       <!-- load more -->
-      <div class="d-flex mt-2 justify-content-center">
+      <div class="d-flex mt-2 justify-content-left">
         <p class="font-weight-bold" v-show="isLoading">Loading .....</p>
         <br />
         <button v-show="next" class="btn btn-outline-info" @click="getItems">
@@ -142,6 +143,7 @@
 
 <script>
 import { HTTP } from "@/common/api.service.js";
+import FileSaver from "file-saver";
 
 export default {
   name: "BillView",
@@ -254,30 +256,14 @@ export default {
       }
       this.getTotal();
     },
-    async exportCSV() {
+    exportCSV() {
       let endpoint = "endpoint/bills/" + this.id + "/export/";
-      let res = await HTTP.get(
-        endpoint,
-        {
-          headers: { Authorization: "Token " + this.token },
-        },
-        { responseType: "blob" }
-      );
-      if (res) {
-        var fileURL = window.URL.createObjectURL(
-          new Blob([res.data], { type: "text/csv" })
-        );
-
-        var fileLink = document.createElement("a");
-
-        fileLink.href = fileURL;
-
-        fileLink.setAttribute("download", this.billname + ".csv");
-
-        document.body.appendChild(fileLink);
-
-        fileLink.click();
-      }
+      HTTP.get(endpoint, {
+        responseType: "blob",
+        headers: { Authorization: "Token " + this.token },
+      }).then((response) => {
+        FileSaver.saveAs(response.data, this.billname + ".xlsx");
+      });
     },
     triggerUpdate() {
       this.update = true;
